@@ -1,9 +1,11 @@
 public class Coordonnees {
 //    Attributs protégés
-    int i;
-    int j;
+    int i = 0;
+    int j = 0;
 
 //    Méthodes publiques
+    public Coordonnees() {}
+
     public Coordonnees(int i, int j) {
         this.i = i;
         this.j = j;
