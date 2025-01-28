@@ -1,7 +1,7 @@
 public class CaseJaune extends Case {
 //    Méthode publiques
-    public CaseJaune(int i, int j) {
-        super(i, j);
+    public CaseJaune(Coordonnees coord) {
+        super(coord);
     }
 
     @Override

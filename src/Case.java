@@ -3,8 +3,8 @@ abstract class Case {
     Coordonnees p;
 
 //    Méthodes publiques
-    public Case(int i, int j) {
-        p = new Coordonnees(i, j);
+    public Case(Coordonnees coord) {
+        p = coord;
     }
 
     public int getI() {

@@ -1,7 +1,7 @@
 public class CaseVide extends Case {
 //    Méthodes publiques
-    public CaseVide(int i, int j) {
-        super(i, j);
+    public CaseVide(Coordonnees coord) {
+        super(coord);
     }
 
     @Override

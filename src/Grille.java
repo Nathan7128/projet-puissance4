@@ -17,8 +17,9 @@ public class Grille {
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < largeur; j++) {
                 coord_temp = new Coordonnees(i, j);
-                case_vide_temp = new CaseVide(i, j);
+                case_vide_temp = new CaseVide(coord_temp);
                 cases.put(coord_temp, case_vide_temp);
+                System.out.println(cases.get(coord_temp).afficher());
             }
         }
     }
