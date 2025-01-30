@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Coordonnees {
 //    Attributs protégés
     int i = 0;
@@ -9,6 +11,21 @@ public class Coordonnees {
     public Coordonnees(int i, int j) {
         this.i = i;
         this.j = j;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || !(o instanceof Coordonnees)) {
+            return false;
+        }
+        else {
+            return this.i == ((Coordonnees)o).getI() && this.j == ((Coordonnees)o).getJ();
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(i, j);
     }
 
     public int getI() {

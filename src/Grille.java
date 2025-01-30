@@ -41,7 +41,6 @@ public class Grille {
 //            Affichage des cases de la ligne
             for (int j = 0; j < largeur; j++) {
                 coord_temp.setJ(j);
-                System.out.println(coord_temp.getI() + " / " + coord_temp.getJ());
                 affichage += cases.get(coord_temp).afficher() + "  ";
             }
 
