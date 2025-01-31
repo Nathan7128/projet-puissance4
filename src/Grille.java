@@ -19,7 +19,6 @@ public class Grille {
                 coord_temp = new Coordonnees(i, j);
                 case_vide_temp = new CaseVide(coord_temp);
                 cases.put(coord_temp, case_vide_temp);
-                System.out.println(cases.get(coord_temp).afficher());
             }
         }
     }
