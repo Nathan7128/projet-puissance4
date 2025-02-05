@@ -14,7 +14,7 @@ public class Partie {
     public Partie(int largeur, int hauteur, int nbPionsAAligner) {
         this.largeur = largeur;
         this.hauteur = hauteur;
-        this.nbPionsAAligner = nbPionsAAligner; /* Exception si nbPions <= 1 ou nbPions >= min(largeur, hauteur) !!!*/
+        this.nbPionsAAligner = nbPionsAAligner;
         this.g = new Grille(largeur, hauteur);
     }
 
@@ -23,18 +23,18 @@ public class Partie {
     }
 
     public boolean ligneDroite(int i, int j) {
-        int j_temp = j + 1;
+        int compteur = 1;
         boolean bool_joueur1, bool_joueur2; /* Permet de savoir si la case qu'on regarde est une instance de la classe
                                                de la case associée au joueur en question */
-        while (j_temp < largeur && j_temp - j < nbPionsAAligner) {
-            bool_joueur1 = (joueur == 1) && !(g.getCase(i, j_temp) instanceof CaseRouge);
-            bool_joueur2 = (joueur == 2) && !(g.getCase(i, j_temp) instanceof CaseJaune);
+        while (j + compteur < largeur && compteur < nbPionsAAligner) {
+            bool_joueur1 = (joueur == 1) && !(g.getCase(i, j + compteur) instanceof CaseJaune);
+            bool_joueur2 = (joueur == 2) && !(g.getCase(i, j + compteur) instanceof CaseRouge);
             if (bool_joueur1 || bool_joueur2) {
                 return false;
             }
-            j_temp++;
+            compteur++;
         }
-        return j_temp - j + 1 >= nbPionsAAligner;
+        return compteur >= nbPionsAAligner;
     }
 
     public boolean ligneBas(int i, int j) {
@@ -48,65 +48,54 @@ public class Partie {
             }
             compteur++;
         }
-        System.out.println("compteur bas : " + compteur);
         return compteur >= nbPionsAAligner;
     }
 
-//    public boolean ligneBas(int i, int j) {
-//        int i_temp = i + 1;
-//        boolean bool_joueur1, bool_joueur2;
-//        while (i_temp < hauteur && i_temp - i < nbPionsAAligner) {
-////            System.out.println("i_temp bas : " + i_temp);
-//            bool_joueur1 = (joueur == 1) && !(g.getCase(i_temp, j) instanceof CaseJaune);
-//            bool_joueur2 = (joueur == 2) && !(g.getCase(i_temp, j) instanceof CaseRouge);
-//            if (bool_joueur1 || bool_joueur2) {
-//                return false;
-//            }
-//            i_temp++;
-//        }
-//        System.out.println("i bas : " + i);
-//        System.out.println("j bas : " + j);
-//        System.out.println("i_temp - i + 1 bas : " + (i_temp - i + 1));
-//        return i_temp - i + 1 > nbPionsAAligner;
-//    }
-
     public boolean ligneBasDroite(int i, int j) {
-        int i_temp = i + 1, j_temp = j + 1;
+        int compteur = 1;
         boolean bool_joueur1, bool_joueur2;
-        while (i_temp < hauteur && j_temp < largeur && j_temp - j < nbPionsAAligner) {
-            bool_joueur1 = (joueur == 1) && !(g.getCase(i_temp, j_temp) instanceof CaseRouge);
-            bool_joueur2 = (joueur == 2) && !(g.getCase(i_temp, j_temp) instanceof CaseJaune);
+        while (compteur + i < hauteur && compteur + j < largeur && compteur < nbPionsAAligner) {
+            bool_joueur1 = (joueur == 1) && !(g.getCase(compteur + i, compteur + j) instanceof CaseJaune);
+            bool_joueur2 = (joueur == 2) && !(g.getCase(compteur + i, compteur + j) instanceof CaseRouge);
             if (bool_joueur1 || bool_joueur2) {
                 return false;
             }
-            i_temp++;
-            j_temp++;
+            compteur++;
         }
-        return j_temp - j + 1 >= nbPionsAAligner;
+        return compteur >= nbPionsAAligner;
     }
 
     public boolean ligneBasGauche(int i, int j) {
-        int i_temp = i + 1, j_temp = j - 1;
+        int compteur = 1;
         boolean bool_joueur1, bool_joueur2;
-        while (i_temp < hauteur && j_temp >= 0 && i_temp - i < nbPionsAAligner) {
-            bool_joueur1 = (joueur == 1) && !(g.getCase(i_temp, j_temp) instanceof CaseRouge);
-            bool_joueur2 = (joueur == 2) && !(g.getCase(i_temp, j_temp) instanceof CaseJaune);
+        while (compteur + i < hauteur && j - compteur >= 0 && compteur < nbPionsAAligner) {
+            bool_joueur1 = (joueur == 1) && !(g.getCase(compteur + i, j - compteur) instanceof CaseJaune);
+            bool_joueur2 = (joueur == 2) && !(g.getCase(compteur + i, j - compteur) instanceof CaseRouge);
             if (bool_joueur1 || bool_joueur2) {
                 return false;
             }
-            i_temp++;
-            j_temp--;
+            compteur++;
         }
-        return i_temp - i + 1 >= nbPionsAAligner;
+        return compteur >= nbPionsAAligner;
     }
 
     public boolean gagne() {
-        boolean bool_gagne = false;
+        boolean bool_gagne = false, case_vide, bool_joueur1, bool_joueur2;
         int i = 0, j;
         while (i < hauteur && !bool_gagne) {
             j = 0;
             while (j < largeur && !bool_gagne) {
-                if (!(g.getCase(i, j) instanceof CaseVide)) {
+//                On regarde si la case itérée est une case vide (donc inutile de regarder cette case)
+                case_vide = g.getCase(i, j) instanceof CaseVide;
+
+//                On regarde si c'est au joueur 1 de jouer et si la case itérée est bien une case jaune
+//                En effet, il est inutile de vérifier si le joueur a gagné dans le cas ou la case itérée n'est pas
+//                de la couleur qu'il joue
+                bool_joueur1 = joueur == 1 && g.getCase(i, j) instanceof CaseJaune;
+//                De même pour le joueur 2
+                bool_joueur2 = joueur == 2 && g.getCase(i, j) instanceof CaseRouge;
+
+                if (!(case_vide) && (bool_joueur1 || bool_joueur2)) {
                     bool_gagne = ligneDroite(i, j) || ligneBas(i, j) || ligneBasDroite(i, j) || ligneBasGauche(i, j);
                 }
                 j++;
@@ -140,11 +129,13 @@ public class Partie {
             new_case = new CaseRouge(new_coord);
         }
         g.setCase(i, colonne, new_case);
-        joueur = 3 - joueur; L'erreur vient d'ici : on regarde si la partie est finie pour le mauvais joueur :/
     }
 
     public int getJoueur() {
         return joueur;
     }
 
+    public void changerJoueur() {
+        joueur = 3 - joueur;
+    }
 }
