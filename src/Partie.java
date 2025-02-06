@@ -85,9 +85,6 @@ public class Partie {
         while (i < hauteur && !bool_gagne) {
             j = 0;
             while (j < largeur && !bool_gagne) {
-//                On regarde si la case itérée est une case vide (donc inutile de regarder cette case)
-                case_vide = g.getCase(i, j) instanceof CaseVide;
-
 //                On regarde si c'est au joueur 1 de jouer et si la case itérée est bien une case jaune
 //                En effet, il est inutile de vérifier si le joueur a gagné dans le cas ou la case itérée n'est pas
 //                de la couleur qu'il joue
@@ -95,7 +92,7 @@ public class Partie {
 //                De même pour le joueur 2
                 bool_joueur2 = joueur == 2 && g.getCase(i, j) instanceof CaseRouge;
 
-                if (!(case_vide) && (bool_joueur1 || bool_joueur2)) {
+                if (bool_joueur1 || bool_joueur2) {
                     bool_gagne = ligneDroite(i, j) || ligneBas(i, j) || ligneBasDroite(i, j) || ligneBasGauche(i, j);
                 }
                 j++;
